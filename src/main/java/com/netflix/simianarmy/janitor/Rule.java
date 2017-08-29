@@ -35,3 +35,4 @@ public interface Rule {
      */
     boolean isValid(Resource resource);
 }
+

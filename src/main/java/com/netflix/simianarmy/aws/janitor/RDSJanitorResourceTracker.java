@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import static com.netflix.simianarmy.utilityTimer.millisToFormattedDate;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -179,7 +180,6 @@ public class RDSJanitorResourceTracker implements JanitorResourceTracker {
 		};
     	
 	public void updatelogger(Resource resource, StringBuilder sb) {
-		String json;
         LOGGER.debug(String.format("Update statement is '%s'", sb));
 		int updated = this.jdbcTemplate.update(sb.toString(),
 								 resource.getResourceType().toString(),
@@ -287,17 +287,6 @@ public class RDSJanitorResourceTracker implements JanitorResourceTracker {
     	}    	
         return resource;
     }
-
-	private String millisToFormattedDate(String millisStr) {
-		String datetime = null;
-		try {
-			long millis = Long.parseLong(millisStr);
-			datetime = AWSResource.DATE_FORMATTER.print(millis);
-		} catch(NumberFormatException nfe) {
-			LOGGER.error(String.format("Error parsing datetime %s when reading from RDS", millisStr));
-		}
-		return datetime;
-	}
 
     @Override
     public Resource getResource(String resourceId) {

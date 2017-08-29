@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import static com.netflix.simianarmy.utilityTimer.millisToFormattedDate;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -242,17 +243,6 @@ public class RDSConformityClusterTracker implements ConformityClusterTracker {
 		map.put(Cluster.CONFORMITY_RULES, rs.getString(Cluster.CONFORMITY_RULES));
 		return Cluster.parseFieldToValueMap(map);
     }                 
-    
-    private String millisToFormattedDate(String millisStr) {
-    	String datetime = null;
-    	try {
-    		long millis = Long.parseLong(millisStr);
-    		datetime = AWSResource.DATE_FORMATTER.print(millis);
-    	} catch(NumberFormatException nfe) {
-			LOGGER.error(String.format("Error parsing datetime %s when reading from RDS", millisStr));
-    	}
-    	return datetime;
-    }
     
     private HashMap<String,String> conformityMapFromJson(String json) throws SQLException {
     	HashMap<String,String> map = new HashMap<>();

@@ -73,6 +73,9 @@ public class DeleteOnTerminationRule implements Rule {
     }
 
     @Override
+    
+    
+    
     public boolean isValid(Resource resource) {
         Validate.notNull(resource);
         if (!resource.getResourceType().name().equals("EBS_VOLUME")) {
